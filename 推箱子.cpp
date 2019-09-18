@@ -1,5 +1,4 @@
 #include<stdio.h>
-//#include"gotoxy.h"
 #include<windows.h>
 #include<conio.h>
 #include<stdlib.h>
@@ -36,7 +35,7 @@ int main()
 	  Creatmap();
 	  Getkeydown(); 
 	  if(getchar()=='n'){
-	     printf("\n\n\n\t\t\t\t\t\tÔÙ¼û\n\n\n");
+	     printf("\n\n\n\t\t\t\t\t\tå†è§\n\n\n");
 	     break;
 	   }
 	   system("CLS");
@@ -64,16 +63,16 @@ void gotoxy(int x,int y)
  	Sleep(10);
  	gotoxy(50,14);
  	if(socer==3){
- 		printf("¹§Ï²»ñÊ¤  ");
+ 		printf("æ­å–œè·èƒœ  ");
  		gotoxy(50,15);
  		system("pause");
  		fflush(stdin);
  		system("CLS");
- 		printf("\n\n\n\n\n\t\t\t\t\tÒª¼ÌĞøÂğ<y or n>:");
+ 		printf("\n\n\n\n\n\t\t\t\t\tè¦ç»§ç»­å—<y or n>:");
  		return true;
  	}
 	 else{
-	    printf("»¹Ê£%d¸öÄ¿±ê",3-socer);
+	    printf("è¿˜å‰©%dä¸ªç›®æ ‡",3-socer);
 	    return false;
 	}
  }
@@ -81,44 +80,44 @@ void gotoxy(int x,int y)
  void Creatmenu()
  {
  		gotoxy(50,4);
- 		printf("»¶Ó­À´µ½¼òÒ×ÍÆÏä×Ó");
+ 		printf("æ¬¢è¿æ¥åˆ°ç®€æ˜“æ¨ç®±å­");
  		gotoxy(50,7);
- 		printf("²Ù×÷·½·¨:");
+ 		printf("æ“ä½œæ–¹æ³•:");
 		gotoxy(50,8);
-		printf("w:ÏòÉÏ s:ÏòÏÂ a:Ïò×ó d:ÏòÓÒ");
+		printf("w:å‘ä¸Š s:å‘ä¸‹ a:å‘å·¦ d:å‘å³");
 		gotoxy(50,9);
-		printf("<>:ÍÆÊÖ ¡Ñ:Ïä×Ó !$:Ä¿±ê"); 
+		printf("<>:æ¨æ‰‹ âŠ™:ç®±å­ !$:ç›®æ ‡"); 
 		gotoxy(50,11);
-		printf("(×¢:ÒòËæ»úÉú³ÉÎ»ÖÃ ËùÒÔ¼«Ğ¡¸ÅÂÊ´æÔÚbug)");
+		printf("(æ³¨:å› éšæœºç”Ÿæˆä½ç½® æ‰€ä»¥æå°æ¦‚ç‡å­˜åœ¨bug)");
  }
  
  void Creatmap()
  {
- 	//ÖÆÔìÎ§Ç½ 
+ 	//åˆ¶é€ å›´å¢™ 
  	for(int i=0;i<WIDE-2;i+=2){
  		gotoxy(i,0);
- 		printf("¡ö");
+ 		printf("â– ");
  		gotoxy(i,HIGH-2);
- 		printf("¡ö");
+ 		printf("â– ");
 	 }
 	for(int i=0;i<HIGH-1;i++){
 		gotoxy(0,i);
-		printf("¡ö");
+		printf("â– ");
 		gotoxy(WIDE-3,i);
-		printf("¡ö");
+		printf("â– ");
 	}
 	int j;
 	for(int i=1,j=0;j<5;j++,i++){
 		gotoxy(WIDE/3-1,i);
 		wall[j].x=WIDE/3-1;
 		wall[j].y=i;
-		printf("¡ö"); 
+		printf("â– "); 
 	}
 	for(int i=WIDE-2-1,j=0;j<5;j++,i-=2){
 		gotoxy(i,HIGH/3*2);
 		wall[5+j].x=i;
 		wall[5+j].y=HIGH/3*2;
-		printf("¡ö");
+		printf("â– ");
 	}
 	srand(time(NULL));
 	for(int i=10;i<50;i++){
@@ -133,31 +132,49 @@ void gotoxy(int x,int y)
 			wall[i].x=x;
 			wall[i].y=y;
 			gotoxy(x,y);
-			printf("¡ö");
+			printf("â– ");
 			break;
 		}
 	}
 	
-	//ÖÆÔìÏä×Ó 
+	//åˆ¶é€ ç®±å­ 
 	for(int i=0;i<3;i++){
 		while(1){
 			strat_2:
 			int x=rand()%(WIDE-2-2-2-2-2)+4;
 			int y=rand()%(HIGH-1-1-1-1-1)+2;
-			for(int n=0;n<50;n++)
-				if(x==wall[n].x && y==wall[n].y)
-				   goto strat_2;
-			if(x%2!=0)
-			  continue;
+			int wallNums=0;
+			for(int n=0;n<50;n++){
+				if(x%2!=0||wallNums>=2) {
+					goto strat_2;
+				}
+				for(int j=0;j<i;j++){
+					if(x==box[j].x&&y==box[j].y){
+						goto strat_2;
+					}
+				}
+				if((x-2==wall[n].x&&y==wall[n].y-1)||(x-2==wall[n].x&&y==wall[n].y)||(x-2==wall[n].x&&y==wall[n].y+1)){
+					wallNums++;
+				}
+				if((x==wall[n].x&&y==wall[n].y-1)||(x==wall[n].x&&y==wall[n].y)||(x==wall[n].x&&y==wall[n].y+1)){
+					wallNums++;
+				}
+				if((x+2==wall[n].x&&y==wall[n].y-1)||(x+2==wall[n].x&&y==wall[n].y)||(x+2==wall[n].x&&y==wall[n].y+1)){
+					wallNums++;
+				}
+				if(x==0||x==WIDE-4||y==0||y==HIGH-2){
+					wallNums++; 
+				}	
+			}
 			box[i].x=x;
 			box[i].y=y;
 			gotoxy(x,y);
-			printf("¡Ñ");
+			printf("âŠ™");
 			break;
 		}
 	}
 	
-	//ÖÆÔìĞ¡ÈË 
+	//åˆ¶é€ å°äºº 
 	while(1){
 		strat_3:
 		int x=rand()%(WIDE-2-2-2)+2;
@@ -177,7 +194,7 @@ void gotoxy(int x,int y)
 	    break;
 	}
 	
-	//ÖÆÔìÄ¿±ê
+	//åˆ¶é€ ç›®æ ‡
 	for(int i=0;i<3;i++){
 		while(1){
 			strat_4:
@@ -341,7 +358,7 @@ void gotoxy(int x,int y)
  	        printf("<>");
  	        break;
  	    case 3:
-		    printf("¡Ñ");
+		    printf("âŠ™");
 		    break;
 	}
  	            
